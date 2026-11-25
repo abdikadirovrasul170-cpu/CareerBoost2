@@ -2,29 +2,13 @@
 
 
 
-    USERS {
-        BIGINT id PK
-        VARCHAR full_name
-        VARCHAR email UK
-        VARCHAR password_hash
-        VARCHAR role
-    }
-    CANDIDATE_PROFILES {
-        BIGINT id PK
-        BIGINT user_id FK
-        VARCHAR specialty
-        TEXT bio
-    }
-  
-    }
-    JOBS {
-        BIGINT id PK
 erDiagram
     USERS ||--|| PROFILES : has
     USERS ||--o{ RESUMES : creates
     USERS ||--o{ APPLICATIONS : submits
     USERS ||--o{ USER_SKILLS : has
     SKILLS ||--o{ USER_SKILLS : includes
+    USERS ||--o{ VACANCIES : publishes
     VACANCIES ||--o{ APPLICATIONS : receives
 
     USERS {
@@ -32,7 +16,6 @@ erDiagram
         string full_name
         string email UK
         string password
-        datetime created_at
     }
 
     PROFILES {
@@ -61,7 +44,6 @@ erDiagram
         string title
         text personal_info
         text experience
-        datetime created_at
     }
 
     VACANCIES {
@@ -70,7 +52,6 @@ erDiagram
         string title
         string company_name
         text description
-        datetime created_at
     }
 
     APPLICATIONS {
@@ -81,32 +62,6 @@ erDiagram
         datetime applied_at
     }
 
-        BIGINT company_id FK
-        VARCHAR title
-        TEXT description
-        DECIMAL salary
-        VARCHAR status
-    }
-    SKILLS {
-        BIGINT id PK
-        VARCHAR name UK
-    }
-    CANDIDATE_SKILLS {
-        BIGINT candidate_id PK,FK
-        BIGINT skill_id PK,FK
-    }
-    JOB_SKILLS {
-        BIGINT job_id PK,FK
-        BIGINT skill_id PK,FK
-    }
-    APPLICATIONS {
-        BIGINT id PK
-        BIGINT candidate_id FK
-        BIGINT job_id FK
-        VARCHAR status
-        TIMESTAMP applied_at
-    }
-```
 
 ## Байланыстар
 - `companies` 1:N `jobs` — бір компания бірнеше вакансия жариялайды.
