@@ -32,6 +32,68 @@ erDiagram
     }
     JOBS {
         BIGINT id PK
+erDiagram
+    USERS ||--|| PROFILES : has
+    USERS ||--o{ RESUMES : creates
+    USERS ||--o{ APPLICATIONS : submits
+    USERS ||--o{ USER_SKILLS : has
+    SKILLS ||--o{ USER_SKILLS : includes
+    VACANCIES ||--o{ APPLICATIONS : receives
+
+    USERS {
+        int id PK
+        string full_name
+        string email UK
+        string password
+        datetime created_at
+    }
+
+    PROFILES {
+        int id PK
+        int user_id FK
+        string education
+        string experience
+        string phone
+    }
+
+    SKILLS {
+        int id PK
+        string skill_name
+    }
+
+    USER_SKILLS {
+        int id PK
+        int user_id FK
+        int skill_id FK
+        string skill_level
+    }
+
+    RESUMES {
+        int id PK
+        int user_id FK
+        string title
+        text personal_info
+        text experience
+        datetime created_at
+    }
+
+    VACANCIES {
+        int id PK
+        int employer_id FK
+        string title
+        string company_name
+        text description
+        datetime created_at
+    }
+
+    APPLICATIONS {
+        int id PK
+        int user_id FK
+        int vacancy_id FK
+        string status
+        datetime applied_at
+    }
+
         BIGINT company_id FK
         VARCHAR title
         TEXT description
