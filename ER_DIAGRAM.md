@@ -2,14 +2,7 @@
 
 
 
-erDiagram
-    USERS ||--|| PROFILES : has
-    USERS ||--o{ RESUMES : creates
-    USERS ||--o{ APPLICATIONS : submits
-    USERS ||--o{ USER_SKILLS : has
-    SKILLS ||--o{ USER_SKILLS : includes
-    USERS ||--o{ VACANCIES : publishes
-    VACANCIES ||--o{ APPLICATIONS : receives
+
 
     USERS {
         int id PK
