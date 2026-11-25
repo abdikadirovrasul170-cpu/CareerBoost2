@@ -78,3 +78,33 @@ document.querySelectorAll(".template-card").forEach(card => card.addEventListene
 }));
 $("mobileMenu").addEventListener("click", () => document.querySelector("#builder").scrollIntoView({behavior:"smooth"}));
 updatePreview(); loadResumes();
+let authMode = "register";
+function setAuthMode(mode) {
+  authMode = mode;
+  $("authTitle").textContent = mode === "register" ? "Create your account" : "Welcome back";
+  $("authHint").textContent = mode === "register" ? "Save your resumes and keep your career journey organized." : "Sign in to continue building your resume.";
+  $("authNameLabel").hidden = mode !== "register";
+  $("authRoleLabel").hidden = mode !== "register";
+  $("authName").required = mode === "register";
+  $("authSubmit").textContent = mode === "register" ? "Create account →" : "Sign in →";
+  $("authSwitch").textContent = mode === "register" ? "Already have an account? Sign in" : "New here? Create an account";
+  $("authMessage").textContent = "";
+}
+$("authOpen").addEventListener("click", () => { setAuthMode("register"); $("authDialog").showModal(); });
+$("authClose").addEventListener("click", () => $("authDialog").close());
+$("authSwitch").addEventListener("click", () => setAuthMode(authMode === "register" ? "login" : "register"));
+$("authForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const body = authMode === "register"
+    ? {fullName:value("authName"),email:value("authEmail"),password:value("authPassword"),role:value("authRole")}
+    : {email:value("authEmail"),password:value("authPassword")};
+  try {
+    const response = await fetch("/api/auth/" + authMode, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Authentication failed");
+    $("authMessage").textContent = "✓ Welcome, " + data.fullName + " (" + data.role + ")";
+    $("authOpen").textContent = data.fullName.split(" ")[0];
+    setTimeout(() => $("authDialog").close(), 900);
+    notify("You are signed in.");
+  } catch (error) { $("authMessage").textContent = error.message; }
+});
