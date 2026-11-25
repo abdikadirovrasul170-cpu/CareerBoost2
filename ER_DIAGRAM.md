@@ -1,15 +1,6 @@
 # CareerBoost ER-диаграммасы
 
-```mermaid
-erDiagram
-    USERS ||--o| CANDIDATE_PROFILES : has
-    COMPANIES ||--o{ JOBS : publishes
-    CANDIDATE_PROFILES ||--o{ APPLICATIONS : submits
-    JOBS ||--o{ APPLICATIONS : receives
-    CANDIDATE_PROFILES ||--o{ CANDIDATE_SKILLS : has
-    SKILLS ||--o{ CANDIDATE_SKILLS : assigned
-    JOBS ||--o{ JOB_SKILLS : requires
-    SKILLS ||--o{ JOB_SKILLS : required
+
 
     USERS {
         BIGINT id PK
@@ -24,11 +15,7 @@ erDiagram
         VARCHAR specialty
         TEXT bio
     }
-    COMPANIES {
-        BIGINT id PK
-        VARCHAR name
-        TEXT description
-        VARCHAR website
+  
     }
     JOBS {
         BIGINT id PK
