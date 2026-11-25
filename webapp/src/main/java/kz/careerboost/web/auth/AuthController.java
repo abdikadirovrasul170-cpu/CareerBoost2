@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     public record RegisterRequest(@NotBlank String fullName, @Email @NotBlank String email,
-                                  @Size(min = 8) String password, String role) { }
+                                  @NotBlank @Size(min = 8) String password, String role) { }
     public record LoginRequest(@Email @NotBlank String email, @NotBlank String password) { }
 
     @PostMapping("/register")
